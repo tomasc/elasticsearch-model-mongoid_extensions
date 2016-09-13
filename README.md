@@ -26,7 +26,7 @@ This gem makes sure that the following requirements, required to support indexin
 * `document_type` is set on all descending classes
 * `index_name` is the same for all descending classes
 * mappings are propagated to all descending classes
-* mappings of all descending classes are used when creating new index
+* mappings of all descending classes are combined and used when creating new index
 * search is performed across all descending classes
 
 ## Development
