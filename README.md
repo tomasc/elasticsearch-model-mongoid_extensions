@@ -1,5 +1,7 @@
 # Elasticsearch::Model::Mongoid::Sti
 
+[![Build Status](https://travis-ci.org/tomasc/elasticsearch-model-mongoid-sti.svg)](https://travis-ci.org/tomasc/elasticsearch-model-mongoid-sti) [![Gem Version](https://badge.fury.io/rb/elasticsearch-model-mongoid-sti.svg)](http://badge.fury.io/rb/elasticsearch-model-mongoid-sti) [![Coverage Status](https://img.shields.io/coveralls/tomasc/elasticsearch-model-mongoid-sti.svg)](https://coveralls.io/r/tomasc/elasticsearch-model-mongoid-sti)
+
 Set of [Elasticsearch::Model](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model) mixins for support of STI of Mongoid classes.
 
 ## Installation
