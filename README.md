@@ -1,4 +1,4 @@
-# Elasticsearch::Model::Mongoid::Sti
+# Elasticsearch::Model::Mongoid::STI
 
 [![Build Status](https://travis-ci.org/tomasc/elasticsearch-model-mongoid-sti.svg)](https://travis-ci.org/tomasc/elasticsearch-model-mongoid-sti) [![Gem Version](https://badge.fury.io/rb/elasticsearch-model-mongoid-sti.svg)](http://badge.fury.io/rb/elasticsearch-model-mongoid-sti) [![Coverage Status](https://img.shields.io/coveralls/tomasc/elasticsearch-model-mongoid-sti.svg)](https://coveralls.io/r/tomasc/elasticsearch-model-mongoid-sti)
 
