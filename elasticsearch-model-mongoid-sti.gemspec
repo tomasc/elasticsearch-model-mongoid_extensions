@@ -5,7 +5,7 @@ require 'elasticsearch/model/mongoid/sti/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'elasticsearch-model-mongoid-sti'
-  spec.version       = Elasticsearch::Model::Mongoid::Sti::VERSION
+  spec.version       = Elasticsearch::Model::Mongoid::STI::VERSION
   spec.authors       = ['Tomas Celizna']
   spec.email         = ['tomas.celizna@gmail.com']
 
@@ -18,7 +18,13 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
+  spec.add_dependency 'elasticsearch-model', '~> 0.1.8'
+  spec.add_dependency 'elasticsearch-rails', '~> 0.1.8'
+  spec.add_dependency 'mongoid', '~> 5'
+
   spec.add_development_dependency 'bundler', '~> 1.12'
   spec.add_development_dependency 'rake', '~> 10.0'
+  spec.add_development_dependency 'guard'
+  spec.add_development_dependency 'guard-minitest'
   spec.add_development_dependency 'minitest', '~> 5.0'
 end

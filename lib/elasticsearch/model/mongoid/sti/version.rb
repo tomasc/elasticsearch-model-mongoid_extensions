@@ -1,8 +1,8 @@
 module Elasticsearch
   module Model
     module Mongoid
-      module Sti
-        VERSION = "0.1.0"
+      module STI
+        VERSION = '0.1.0'.freeze
       end
     end
   end
