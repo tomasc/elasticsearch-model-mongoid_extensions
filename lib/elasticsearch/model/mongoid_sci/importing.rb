@@ -1,5 +1,7 @@
 require 'elasticsearch/model/adapters/mongoid'
 
+# TODO: submit PR to https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model that would allow to specify criteria as illustrated below
+
 module Elasticsearch
   module Model
     module Adapter
