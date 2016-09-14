@@ -62,14 +62,19 @@ describe Elasticsearch::Model::MongoidSci do
       my_doc_1.class.search(field_1.downcase).records.to_a.must_equal [my_doc_1, my_doc_2]
       my_doc_2.class.search(field_1.downcase).records.to_a.must_equal [my_doc_2]
     end
+
+    it 'must respect document type if specified' do
+      my_doc.class.search(field_1.downcase, type: [my_doc.class.document_type]).records.to_a.must_equal [my_doc]
+      my_doc.class.search(field_1.downcase, type: [my_doc.class.document_type, my_doc_1.class.document_type]).records.to_a.must_equal [my_doc, my_doc_1]
+      my_doc_1.class.search(field_1.downcase, type: [my_doc_1.class.document_type]).records.to_a.must_equal [my_doc_1]
+      my_doc_1.class.search(field_1.downcase, type: [my_doc_2.class.document_type]).records.to_a.must_equal [my_doc_2]
+    end
   end
 
   describe '.import' do
     before do
       my_doc.class.create_index! force: true
-      [my_doc, my_doc_1, my_doc_2].each do |doc|
-        doc.save!
-      end
+      [my_doc, my_doc_1, my_doc_2].each(&:save!)
       my_doc.class.import force: true, refresh: true
     end
 

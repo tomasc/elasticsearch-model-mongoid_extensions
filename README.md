@@ -24,7 +24,9 @@ Or install it yourself as:
 
 ## Usage
 
-Include the `Elasticsearch::Model::MongoidSci` mixin in your baseclass.
+### Setup
+
+Include the `Elasticsearch::Model::MongoidSci` mixin in your base class.
 
 ```ruby
 class MyDoc
@@ -49,6 +51,47 @@ end
 ```
 
 The `MyDoc` class will use index with name `my_docs`, the `MyDoc1` subclass will use `my_doc_1s`. If you wish to customize the index name (prepend your application name, append Rails environment name etc.) see the configuration below.
+
+### Index creation & refresh
+
+Use the class methods defined on the base class to create/refresh indexes for all descending classes as well:
+
+```ruby
+MyDoc.create_index! # will trigger MyDoc1.create_index! as well
+MyDoc.refresh_index! # will trigger MyDoc1.refresh_index! as well
+```
+
+### Importing
+
+Import on base class (here `MyDoc`) imports all documents of descending classes as well:
+
+```ruby
+MyDoc.import # will trigger MyDoc1.import as well
+```
+
+### Indexing
+
+Indexing works as expected using the proxied methods:
+
+```ruby
+my_doc.__elasticsearch__.index_document
+my_doc.__elasticsearch__.update_document
+my_doc.__elasticsearch__.delete_document
+```
+
+### Search
+
+Search on base class searches descendants as well:
+
+```ruby
+MyDoc.search('*') # will search MyDoc1 as well
+```
+
+User the `type` option to limit the searched classes:
+
+```ruby
+MyDoc.search('*', type: [MyDoc.document_type]) # will search only MyDoc
+```
 
 ## Configuration
 
