@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/tomasc/elasticsearch-model-mongoid_extensions.svg)](https://travis-ci.org/tomasc/elasticsearch-model-mongoid_extensions) [![Gem Version](https://badge.fury.io/rb/elasticsearch-model-mongoid_extensions.svg)](http://badge.fury.io/rb/elasticsearch-model-mongoid_extensions) [![Coverage Status](https://img.shields.io/coveralls/tomasc/elasticsearch-model-mongoid_extensions.svg)](https://coveralls.io/r/tomasc/elasticsearch-model-mongoid_extensions)
 
-Collection of [Elasticsearch::Model](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model) extensions for Mongoid adding support of single collection inheritance and localized fields.
+[Elasticsearch::Model](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model) extensions for Mongoid adding support of single collection inheritance (by the way of multiple indexes) and localized fields.
 
 ## Installation
 

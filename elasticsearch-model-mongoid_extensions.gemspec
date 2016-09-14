@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Tomas Celizna']
   spec.email         = ['tomas.celizna@gmail.com']
 
-  spec.summary       = 'Collection of Elasticsearch::Model extensions for Mongoid adding support of single collection inheritance and localized fields.'
+  spec.summary       = 'Elasticsearch::Model extensions for Mongoid adding support of single collection inheritance (by the way of multiple indexes) and localized fields.'
   spec.homepage      = 'https://github.com/tomasc/elasticsearch-model-mongoid_extensions'
   spec.license       = 'MIT'
 
