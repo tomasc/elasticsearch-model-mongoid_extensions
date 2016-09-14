@@ -70,7 +70,7 @@ MyDoc.import # will trigger MyDoc1.import as well
 
 ### Indexing
 
-Indexing works as expected using the proxied methods:
+Indexing works as expected using the standard proxied methods:
 
 ```ruby
 my_doc.__elasticsearch__.index_document
