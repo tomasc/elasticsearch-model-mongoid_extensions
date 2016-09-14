@@ -1,4 +1,5 @@
 require 'active_support/concern'
+require 'elasticsearch/model/mongoid_sci/importing'
 require 'elasticsearch/model/mongoid_sci/version'
 
 module Elasticsearch
@@ -7,14 +8,19 @@ module Elasticsearch
       extend ActiveSupport::Concern
 
       included do
-        # needs to be here in order to override the .search method from Elasticsearch::Model
-        def self.search(query_or_payload, options = {})
-          models = options.fetch(:models, (Array(self) + descendants))
-          Elasticsearch::Model.search(query_or_payload, models, options)
-        end
       end
 
       module ClassMethods
+        def search(query_or_payload, options = {})
+          models = options.fetch :models, [self] + descendants
+          Elasticsearch::Model.search(query_or_payload, models, options)
+        end
+
+        def import(options = {}, &block)
+          __elasticsearch__.import(options.merge(criteria: criteria.type(to_s)), &block)
+          descendants.each { |cls| cls.import(options, &block) }
+        end
+
         def index_name_template(proc)
           @@index_name_template = proc
           index_name @@index_name_template.call(self)

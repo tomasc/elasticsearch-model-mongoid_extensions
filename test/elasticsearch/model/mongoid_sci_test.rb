@@ -65,6 +65,22 @@ describe Elasticsearch::Model::MongoidSci do
   end
 
   describe '.import' do
+    before do
+      my_doc.class.create_index! force: true
+      [my_doc, my_doc_1, my_doc_2].each do |doc|
+        doc.save!
+      end
+      my_doc.class.import force: true, refresh: true
+    end
+
+    it 'must import root class' do
+      my_doc.class.search('*').results.total.must_equal 3
+    end
+
+    it 'must import all descending classes' do
+      my_doc_1.class.search('*').results.total.must_equal 2
+      my_doc_2.class.search('*').results.total.must_equal 1
+    end
   end
 
   describe '.callbacks' do
