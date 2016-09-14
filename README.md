@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/tomasc/elasticsearch-model-mongoid_extensions.svg)](https://travis-ci.org/tomasc/elasticsearch-model-mongoid_extensions) [![Gem Version](https://badge.fury.io/rb/elasticsearch-model-mongoid_extensions.svg)](http://badge.fury.io/rb/elasticsearch-model-mongoid_extensions) [![Coverage Status](https://img.shields.io/coveralls/tomasc/elasticsearch-model-mongoid_extensions.svg)](https://coveralls.io/r/tomasc/elasticsearch-model-mongoid_extensions)
 
-[Elasticsearch::Model](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model) extensions for Mongoid adding support of single collection inheritance (by the way of multiple indexes) and localized fields.
+[Elasticsearch::Model](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model) extensions for Mongoid adding support of [single collection inheritance](https://github.com/tomasc/elasticsearch-model-mongoid_extensions#sci) (by the way of multiple indexes) and [localized fields](https://github.com/tomasc/elasticsearch-model-mongoid_extensions#localized).
 
 ## Installation
 
@@ -24,7 +24,7 @@ Or install it yourself as:
 
 ### SCI
 
-Using a separate index per each subclass is beneficial in case the field definitions vary across the subclasses (as it may in document oriented databases such as Mongoid). On the contrary sharing an index for all subclasses might lead into conflicts with different mappings of fields with same name. 
+Using a separate index per each subclass is beneficial in case the field definitions vary across the subclasses (as it may in document oriented databases such as Mongoid). On the contrary sharing an index for all subclasses might lead into conflicts with different mappings of fields with same name.
 
 If your subclass tree shares same field definitions, you might prefer use only one index (see the `inheritance_enabled` setting on [`ElasticSearch::Model`](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model#settings)).
 
