@@ -4,7 +4,7 @@
 
 [Elasticsearch::Model](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model) mixin that adds support for importing, indexing & search of Mongoid single collection inheritance classes by the way of separate indexes.
 
-If your subclass tree shares same field definitions, you might prefer sharing one index (see the `inheritance_enabled` setting on [`ElasticSearch::Model`](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model#settings)). This gem splits indexing of the subclasses to separate indexes which is beneficial in case the field definitions on your subclasses vary (as it may in document oriented databases such as Mongoid).
+If your subclass tree shares same field definitions, you might prefer sharing one index (see the `inheritance_enabled` setting on [`ElasticSearch::Model`](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model#settings)). This gem splits subclasses into separate indexes which is beneficial in case the field definitions on your subclasses vary (as it may in document oriented databases such as Mongoid).
 
 ## Installation
 
