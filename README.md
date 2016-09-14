@@ -26,12 +26,11 @@ Or install it yourself as:
 
 ### Setup
 
-Include the `Elasticsearch::Model::MongoidSci` mixin in your base class.
+Include the `Elasticsearch::Model::MongoidSci` mixin in your base class (this will automatically include the standard `Elasticsearch::Model` as well).
 
 ```ruby
 class MyDoc
   include Mongoid::Document
-  include Elasticsearch::Model
   include Elasticsearch::Model::MongoidSci
 
   field :field_1, type: String

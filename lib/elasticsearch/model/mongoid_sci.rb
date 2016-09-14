@@ -8,6 +8,7 @@ module Elasticsearch
       extend ActiveSupport::Concern
 
       included do
+        include Elasticsearch::Model
       end
 
       module ClassMethods
@@ -21,7 +22,6 @@ module Elasticsearch
 
           descendant.instance_eval do
             include Elasticsearch::Model
-            # include Elasticsearch::Model::Callbacks
           end
 
           # propagate index_name_template
