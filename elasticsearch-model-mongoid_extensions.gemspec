@@ -1,16 +1,16 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'elasticsearch/model/mongoid_sci/version'
+require 'elasticsearch/model/mongoid_extensions/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'elasticsearch-model-mongoid_sci'
-  spec.version       = Elasticsearch::Model::MongoidSci::VERSION
+  spec.name          = 'elasticsearch-model-mongoid_extensions'
+  spec.version       = Elasticsearch::Model::MongoidExtensions::VERSION
   spec.authors       = ['Tomas Celizna']
   spec.email         = ['tomas.celizna@gmail.com']
 
-  spec.summary       = 'Elasticsearch::Model mixin that adds support for importing, indexing & search of Mongoid single collection inheritance classes by the way of separate indexes.'
-  spec.homepage      = 'https://github.com/tomasc/elasticsearch-model-mongoid_sci'
+  spec.summary       = 'Collection of Elasticsearch::Model extensions for Mongoid adding support of single collection inheritance and localized fields.'
+  spec.homepage      = 'https://github.com/tomasc/elasticsearch-model-mongoid_extensions'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }

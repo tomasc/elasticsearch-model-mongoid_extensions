@@ -1,6 +1,6 @@
 require 'test_helper'
 
-describe Elasticsearch::Model::MongoidSci do
+describe Elasticsearch::Model::MongoidExtensions::SCI do
   let(:field_1) { 'ONE' }
   let(:field_2) { 'TWO' }
   let(:field_3) { 'THREE' }
@@ -12,7 +12,7 @@ describe Elasticsearch::Model::MongoidSci do
   describe '.index_name' do
     it 'evaluates lambda throughout subclasses' do
       [my_doc, my_doc_1, my_doc_2].each do |doc|
-        doc.class.index_name.must_equal ['elasticsearch-model-mongoid_sci', doc.model_name.plural].join('-')
+        doc.class.index_name.must_equal ['elasticsearch-model-mongoid_extensions', doc.model_name.plural].join('-')
       end
     end
   end

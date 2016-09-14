@@ -1,17 +1,15 @@
-# Elasticsearch::Model::MongoidSci
+# Elasticsearch::Model::MongoidExtensions
 
-[![Build Status](https://travis-ci.org/tomasc/elasticsearch-model-mongoid_sci.svg)](https://travis-ci.org/tomasc/elasticsearch-model-mongoid_sci) [![Gem Version](https://badge.fury.io/rb/elasticsearch-model-mongoid_sci.svg)](http://badge.fury.io/rb/elasticsearch-model-mongoid_sci) [![Coverage Status](https://img.shields.io/coveralls/tomasc/elasticsearch-model-mongoid_sci.svg)](https://coveralls.io/r/tomasc/elasticsearch-model-mongoid_sci)
+[![Build Status](https://travis-ci.org/tomasc/elasticsearch-model-mongoid_extensions.svg)](https://travis-ci.org/tomasc/elasticsearch-model-mongoid_extensions) [![Gem Version](https://badge.fury.io/rb/elasticsearch-model-mongoid_extensions.svg)](http://badge.fury.io/rb/elasticsearch-model-mongoid_extensions) [![Coverage Status](https://img.shields.io/coveralls/tomasc/elasticsearch-model-mongoid_extensions.svg)](https://coveralls.io/r/tomasc/elasticsearch-model-mongoid_extensions)
 
-[Elasticsearch::Model](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model) mixin that adds support for importing, indexing & search of Mongoid single collection inheritance classes by the way of separate indexes.
-
-If your subclass tree shares same field definitions, you might prefer sharing one index (see the `inheritance_enabled` setting on [`ElasticSearch::Model`](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model#settings)). This gem splits subclasses into separate indexes which is beneficial in case the field definitions on your subclasses vary (as it may in document oriented databases such as Mongoid).
+Collection of [Elasticsearch::Model](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model) extensions for Mongoid adding support of single collection inheritance and localized fields.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'elasticsearch-model-mongoid_sci'
+gem 'elasticsearch-model-mongoid_extensions'
 ```
 
 And then execute:
@@ -20,18 +18,22 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install elasticsearch-model-mongoid_sci
+    $ gem install elasticsearch-model-mongoid_extensions
 
 ## Usage
 
-### Setup
+### SCI
 
-Include the `Elasticsearch::Model::MongoidSci` mixin in your base class (this will automatically include the standard `Elasticsearch::Model` as well).
+This gem splits subclasses into separate indexes which is beneficial in case the field definitions vary accross your subclasses (as it may in document oriented databases such as Mongoid). Using the same index for all subclasses might lead into conflicts with different mappings of fields with same name.
+
+If your subclass tree however shares same field definitions, you might prefer use only one index (see the `inheritance_enabled` setting on [`ElasticSearch::Model`](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model#settings)).
+
+#### Setup
 
 ```ruby
 class MyDoc
   include Mongoid::Document
-  include Elasticsearch::Model::MongoidSci
+  include Elasticsearch::Model::MongoidExtensions::SCI
 
   field :field_1, type: String
 
@@ -51,7 +53,17 @@ end
 
 The `MyDoc` class will use index with name `my_docs`, the `MyDoc1` subclass will use `my_doc_1s`. If you wish to customize the index name (prepend application name, append Rails environment name etc.) see the configuration below.
 
-### Index creation & refresh
+Optionally supply an `index_name_template` that will be automatically evaluated in context of each of the subclasses.
+
+```ruby
+class MyDoc
+  # …
+  index_name_template -> (cls) { ['elasticsearch-model-mongoid_extensions', cls.model_name.plural].join('-') }
+  # …
+end
+```
+
+#### Index creation & refresh
 
 Use the class methods defined on the base class to create/refresh indexes for all descending classes as well:
 
@@ -60,7 +72,7 @@ MyDoc.create_index! # will trigger MyDoc1.create_index! as well
 MyDoc.refresh_index! # will trigger MyDoc1.refresh_index! as well
 ```
 
-### Importing
+#### Importing
 
 Import on base class (here `MyDoc`) imports all documents of descending classes as well:
 
@@ -68,7 +80,7 @@ Import on base class (here `MyDoc`) imports all documents of descending classes 
 MyDoc.import # will trigger MyDoc1.import as well
 ```
 
-### Indexing
+#### Indexing
 
 Indexing works as expected using the standard proxied methods:
 
@@ -78,7 +90,7 @@ my_doc.__elasticsearch__.update_document
 my_doc.__elasticsearch__.delete_document
 ```
 
-### Search
+#### Search
 
 Search on base class searches descendants as well:
 
@@ -92,16 +104,20 @@ Use the `type` option to limit the searched classes:
 MyDoc.search('*', type: [MyDoc.document_type]) # will search only MyDoc
 ```
 
-## Configuration
+### Localized
 
-### Index name
-
-Optionally supply an `index_name_template` that will be automatically evaluated in context of each of the subclasses.
+By including the `Localized` module, all Mongoid localized fields will be automatically mapped and serialized as objects:
 
 ```ruby
-class MyDoc
+class MyDoc3
   # …
-  index_name_template -> (cls) { ['elasticsearch-model-mongoid_sci', cls.model_name.plural].join('-') }
+  include Elasticsearch::Model::MongoidExtensions::Localized
+
+  field :field_3, type: String, localize: true
+
+  mapping do
+    indexes :field_3
+  end
   # …
 end
 ```
@@ -114,7 +130,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/tomasc/elasticsearch-model-mongoid_sci.
+Bug reports and pull requests are welcome on GitHub at https://github.com/tomasc/elasticsearch-model-mongoid_extensions.
 
 
 ## License

@@ -5,10 +5,6 @@ require 'minitest/autorun'
 require 'minitest/around'
 require 'minitest/spec'
 
-require 'mongoid'
-require 'elasticsearch/model'
-require 'elasticsearch/rails'
-
-require 'elasticsearch/model/mongoid_sci'
+require 'elasticsearch/model/mongoid_extensions'
 
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }

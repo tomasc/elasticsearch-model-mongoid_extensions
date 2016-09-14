@@ -1,8 +1,8 @@
 class MyDoc
   include Mongoid::Document
-  include Elasticsearch::Model::MongoidSci
+  include Elasticsearch::Model::MongoidExtensions::SCI
 
-  index_name_template -> (cls) { ['elasticsearch-model-mongoid_sci', cls.model_name.plural].join('-') }
+  index_name_template -> (cls) { ['elasticsearch-model-mongoid_extensions', cls.model_name.plural].join('-') }
   settings index: { number_of_shards: 1 }
 
   field :field_1, type: String
