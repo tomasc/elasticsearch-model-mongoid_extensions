@@ -24,9 +24,9 @@ Or install it yourself as:
 
 ### SCI
 
-This gem splits subclasses into separate indexes which is beneficial in case the field definitions vary accross your subclasses (as it may in document oriented databases such as Mongoid). Using the same index for all subclasses might lead into conflicts with different mappings of fields with same name.
+Using a separate index per each subclass is beneficial in case the field definitions vary across the subclasses (as it may in document oriented databases such as Mongoid). On the contrary sharing an index for all subclasses might lead into conflicts with different mappings of fields with same name. 
 
-If your subclass tree however shares same field definitions, you might prefer use only one index (see the `inheritance_enabled` setting on [`ElasticSearch::Model`](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model#settings)).
+If your subclass tree shares same field definitions, you might prefer use only one index (see the `inheritance_enabled` setting on [`ElasticSearch::Model`](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model#settings)).
 
 #### Setup
 
