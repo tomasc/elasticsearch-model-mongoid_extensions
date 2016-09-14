@@ -86,7 +86,7 @@ Search on base class searches descendants as well:
 MyDoc.search('*') # will search MyDoc1 as well
 ```
 
-User the `type` option to limit the searched classes:
+Use the `type` option to limit the searched classes:
 
 ```ruby
 MyDoc.search('*', type: [MyDoc.document_type]) # will search only MyDoc
