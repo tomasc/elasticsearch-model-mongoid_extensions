@@ -1,15 +1,17 @@
-# Elasticsearch::Model::Mongoid::STI
+# Elasticsearch::Model::MongoidSci
 
-[![Build Status](https://travis-ci.org/tomasc/elasticsearch-model-mongoid-sti.svg)](https://travis-ci.org/tomasc/elasticsearch-model-mongoid-sti) [![Gem Version](https://badge.fury.io/rb/elasticsearch-model-mongoid-sti.svg)](http://badge.fury.io/rb/elasticsearch-model-mongoid-sti) [![Coverage Status](https://img.shields.io/coveralls/tomasc/elasticsearch-model-mongoid-sti.svg)](https://coveralls.io/r/tomasc/elasticsearch-model-mongoid-sti)
+[![Build Status](https://travis-ci.org/tomasc/elasticsearch-model-mongoid_sci.svg)](https://travis-ci.org/tomasc/elasticsearch-model-mongoid_sci) [![Gem Version](https://badge.fury.io/rb/elasticsearch-model-mongoid_sci.svg)](http://badge.fury.io/rb/elasticsearch-model-mongoid_sci) [![Coverage Status](https://img.shields.io/coveralls/tomasc/elasticsearch-model-mongoid_sci.svg)](https://coveralls.io/r/tomasc/elasticsearch-model-mongoid_sci)
 
-Set of [Elasticsearch::Model](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model) mixins for support of STI of Mongoid classes.
+[Elasticsearch::Model](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model) mixin that adds support for indexing & search of Mongoid single collection inheritance classes by the way of maintaining separate index per each subclass.
+
+If your subclass tree shares same field definitions, you might prefer sharing one index (see the `inheritance_enabled` setting on [`ElasticSearch::Model`](https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model#settings)). This gem splits indexing of the subclasses to separate indexes which is beneficial in case the field definitions on your subclasses vary (as it may in document oriented databases such as Mongoid).
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'elasticsearch-model-mongoid-sti'
+gem 'elasticsearch-model-mongoid_sci'
 ```
 
 And then execute:
@@ -18,18 +20,49 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install elasticsearch-model-mongoid-sti
+    $ gem install elasticsearch-model-mongoid_sci
 
 ## Usage
 
-This gem makes sure that the following requirements, required to support indexing of full subclass tree of Mongoid classes, are met:
+Include the `Elasticsearch::Model::MongoidSci` mixin in your baseclass.
 
-* `Elasticsearch::Model` && `Elasticsearch::Model::Callbacks` are included in all descending classes
-* `document_type` is set on all descending classes
-* `index_name` is the same for all descending classes
-* mappings are propagated to all descending classes
-* mappings of all descending classes are combined and used when creating new index
-* search is performed across all descending classes
+```ruby
+class MyDoc
+  include Mongoid::Document
+  include Elasticsearch::Model
+  include Elasticsearch::Model::MongoidSci
+
+  field :field_1, type: String
+
+  mapping do
+    indexes :field_1
+  end
+end
+
+class MyDoc1 < MyDoc
+  field :field_2, type: String
+
+  mapping do
+    indexes :field_2
+  end
+end
+```
+
+The `MyDoc` class will use index with name `my_docs`, the `MyDoc1` subclass will use `my_doc_1s`. If you wish to customize the index name (prepend your application name, append Rails environment name etc.) see the configuration below.
+
+## Configuration
+
+### Index name
+
+Optionally supply an `index_name_template` that will be automatically evaluated in context of each of the subclasses.
+
+```ruby
+class MyDoc
+  # …
+  index_name_template -> (cls) { ['elasticsearch-model-mongoid_sci', cls.model_name.plural].join('-') }
+  # …
+end
+```
 
 ## Development
 
@@ -39,7 +72,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/tomasc/elasticsearch-model-mongoid-sti.
+Bug reports and pull requests are welcome on GitHub at https://github.com/tomasc/elasticsearch-model-mongoid_sci.
 
 
 ## License
