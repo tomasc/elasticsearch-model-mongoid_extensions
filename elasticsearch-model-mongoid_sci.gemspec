@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Tomas Celizna']
   spec.email         = ['tomas.celizna@gmail.com']
 
-  spec.summary       = 'Elasticsearch::Model mixin that adds support for indexing & search of Mongoid single collection inheritance classes.'
+  spec.summary       = 'Elasticsearch::Model mixin that adds support for importing, indexing & search of Mongoid single collection inheritance classes by the way of separate indexes.'
   spec.homepage      = 'https://github.com/tomasc/elasticsearch-model-mongoid_sci'
   spec.license       = 'MIT'
 
