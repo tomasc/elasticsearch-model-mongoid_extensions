@@ -154,6 +154,33 @@ The result automatically becoming:
 
 TODO: it might be helpful to add support for the I18n's fallbacks, so that missing value is correctly replaced by a fallback.
 
+### Fields
+
+The fields extension adds `to_fields` method on class `mappings` that returns all fields names as they are mapped in Elasticsearch. This is especially useful in combination with the `Localized` mixin as it allows to select only fields for a particular locale and use those when searching.
+
+Having document with the following mapping:
+
+```ruby
+class MyDocFields
+  # …
+  include Elasticsearch::Model::MongoidExtensions::Fields
+  # …
+  mapping do
+    indexes :field_1
+    indexes :field_2 do
+      indexes :number, type: :integer, index: :not_analyzed
+      indexes :string, type: :string, index: :not_analyzed
+    end
+  end
+end
+```
+
+The `#to_fields` returns:
+
+```ruby
+MyDocFields.mapping.to_fields # => ["field_1", "field_2", "field_2.number", "field_2.string"]
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
