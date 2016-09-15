@@ -12,6 +12,6 @@ class MyDocLoc
   end
 
   def as_indexed_json(options = {})
-    super(only: %i(field_1), methods: %i(f2))
+    as_json(only: %i(field_1), methods: %i(f2))
   end
 end

@@ -6,7 +6,6 @@ module Elasticsearch
 
         included do
           include Elasticsearch::Model
-          include Elasticsearch::Model::MongoidExtensions
         end
 
         module ClassMethods
@@ -15,16 +14,21 @@ module Elasticsearch
             index_name @@index_name_template.call(self)
           end
 
+          def document_type_template(proc)
+            @@document_type_template = proc
+            document_type @@document_type_template.call(self)
+          end
+
           def inherited(descendant)
             super(descendant)
 
             descendant.instance_eval do
               include Elasticsearch::Model
-              include Elasticsearch::Model::MongoidExtensions
             end
 
             # propagate index_name_template
             descendant.index_name @@index_name_template.call(descendant) if defined?(@@index_name_template)
+            descendant.document_type @@document_type_template.call(descendant) if defined?(@@document_type_template)
 
             # propagate settings
             descendant.settings settings.to_hash
