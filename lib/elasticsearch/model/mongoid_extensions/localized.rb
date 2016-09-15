@@ -9,11 +9,11 @@ module Elasticsearch
         class Mappings < Elasticsearch::Model::Indexing::Mappings
           def indexes(name, options = {}, &block)
             # take the cls from options on the Mappings object
-            cls = @options[:cls]
+            @cls ||= @options.delete(:cls) if @options[:cls]
 
-            return super(name, options, &block) unless cls
+            return super(name, options, &block) unless @cls
 
-            field = cls.fields[name.to_s] || cls.fields.detect { |_, meta| meta.options[:as] == name.to_sym }.try(:last)
+            field = @cls.fields[name.to_s] || @cls.fields.detect { |_, meta| meta.options[:as] == name.to_sym }.try(:last)
 
             return super(name, options, &block) unless field.present? && field.localized?
 
@@ -40,17 +40,9 @@ module Elasticsearch
         end
 
         included do
-          include Elasticsearch::Model::MongoidExtensions
-
-          # FIXME: not so clean to override the mapping method on Elasticsearch::Model::Indexing::Mappings directly
           def self.mapping(options = {}, &block)
-            @mapping ||= Mappings.new(document_type, { cls: self }.merge(options))
-            @mapping.options.update(options) unless options.empty?
-
-            return @mapping unless block_given?
-
-            @mapping.instance_eval(&block)
-            self
+            __elasticsearch__.instance_variable_set(:@mapping, Mappings.new(document_type, { cls: self }.merge(options))) unless __elasticsearch__.instance_variable_get(:@mapping)
+            __elasticsearch__.mapping(options, &block)
           end
 
           prepend Serializing
