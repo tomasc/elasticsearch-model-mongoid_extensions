@@ -13,7 +13,7 @@ module Elasticsearch
 
             return super(name, options, &block) unless cls
 
-            field = cls.fields[name.to_s] || cls.fields.detect { |_, meta| meta.options[:as] == name.to_sym }.last
+            field = cls.fields[name.to_s] || cls.fields.detect { |_, meta| meta.options[:as] == name.to_sym }.try(:last)
 
             return super(name, options, &block) unless field.present? && field.localized?
 
