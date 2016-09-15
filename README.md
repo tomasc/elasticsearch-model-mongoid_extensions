@@ -157,14 +157,12 @@ TODO: it might be helpful to add support for the I18n's fallbacks, so that missi
 
 ### Fields
 
-The fields extension adds `to_fields` method on class `mappings` that returns all fields names as they are mapped in Elasticsearch. This is especially useful in combination with the `Localized` mixin as it allows to select only fields for a particular locale and use those when searching.
+The gem add `to_fields` method on `mappings` that returns all fields names as they are mapped in Elasticsearch. This is especially useful in combination with the `Localized` mixin as it allows to select only fields for a particular locale and use those when searching.
 
 Having document with the following mapping:
 
 ```ruby
 class MyDocFields
-  # …
-  include Elasticsearch::Model::MongoidExtensions::Fields
   # …
   mapping do
     indexes :field_1
@@ -173,6 +171,7 @@ class MyDocFields
       indexes :string, type: :string, index: :not_analyzed
     end
   end
+  # …
 end
 ```
 

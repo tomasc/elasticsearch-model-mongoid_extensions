@@ -1,7 +1,6 @@
 class MyDocFields
   include Mongoid::Document
   include Elasticsearch::Model
-  include Elasticsearch::Model::MongoidExtensions::Fields
 
   field :field_1, type: String
   field :field_2, type: Integer
