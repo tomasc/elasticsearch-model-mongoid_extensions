@@ -20,6 +20,7 @@ module Elasticsearch
 
             descendant.instance_eval do
               include Elasticsearch::Model
+              include Elasticsearch::Model::MongoidExtensions
             end
 
             # propagate index_name_template
@@ -27,6 +28,13 @@ module Elasticsearch
 
             # propagate settings
             descendant.settings settings.to_hash
+
+            # propagate mapping to all descendants
+            mapping.instance_variable_get(:@mapping).each do |name, options|
+              descendant.mapping do
+                indexes(name, options)
+              end
+            end
           end
 
           def create_index!(options = {})

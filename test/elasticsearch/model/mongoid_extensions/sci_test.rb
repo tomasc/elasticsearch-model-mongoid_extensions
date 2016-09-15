@@ -33,6 +33,17 @@ describe Elasticsearch::Model::MongoidExtensions::SCI do
     end
   end
 
+  describe '.mapping' do
+    let(:my_doc_mapping) { my_doc.class.mapping.to_hash[:my_doc][:properties] }
+    let(:my_doc_1_mapping) { my_doc_1.class.mapping.to_hash[:my_doc1][:properties] }
+
+    it 'propagates mapping from super class to subclasses' do
+      my_doc_1.class.mapping.to_hash[:my_doc1][:properties][:field_1].must_equal my_doc_mapping[:field_1]
+      my_doc_2.class.mapping.to_hash[:my_doc2][:properties][:field_1].must_equal my_doc_mapping[:field_1]
+      my_doc_2.class.mapping.to_hash[:my_doc2][:properties][:field_2].must_equal my_doc_1_mapping[:field_2]
+    end
+  end
+
   describe '.index_document' do
     before do
       my_doc.class.create_index! force: true
