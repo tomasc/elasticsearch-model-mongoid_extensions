@@ -1,5 +1,3 @@
-# TODO: submit PR to https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model that would allow to specify criteria as illustrated below
-
 require 'elasticsearch/model/adapters/mongoid'
 require 'elasticsearch/model/mongoid_extensions/importing'
 
