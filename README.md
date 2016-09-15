@@ -124,13 +124,13 @@ end
 
 The mapping will be altered, so that fields originally mapped as:
 
-```json
+```
 { 'field_1' => { 'type' => 'string' } }
 ```
 
 Are automatically transformed to:
 
-```json
+```
 { 'field_1' => { 'type' => 'object', 'properties' => { 'en' => { 'type' => 'string' } } } }
 ```
 
@@ -148,7 +148,7 @@ end
 
 The result automatically becoming:
 
-```json
+```
 { 'field_1' => { 'en' => 'value_en', 'cs' => 'value_cs' } }
 ```
 
