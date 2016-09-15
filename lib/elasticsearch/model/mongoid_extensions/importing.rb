@@ -1,3 +1,5 @@
+# NOTE: waiting for https://github.com/elastic/elasticsearch-rails/pull/625 to be merged
+
 module Elasticsearch
   module Model
     module MongoidExtensions
