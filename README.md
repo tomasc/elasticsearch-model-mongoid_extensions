@@ -152,7 +152,7 @@ The result automatically becoming:
 { 'field_1' => { 'en' => 'value_en', 'cs' => 'value_cs' } }
 ```
 
-TODO: it might be helpful to add support for the I18n's fallbacks, so that if the a value in a locale is missing, it is correctly replaced by the fallback value.
+TODO: it might be helpful to add support for the I18n's fallbacks, so that missing value is correctly replaced by a fallback.
 
 ## Development
 
