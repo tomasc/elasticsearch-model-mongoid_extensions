@@ -51,9 +51,7 @@ class MyDoc1 < MyDoc
 end
 ```
 
-The `MyDoc` class will use index with name `my_docs`, the `MyDoc1` subclass will use `my_doc_1s`. If you wish to customize the index name (prepend application name, append Rails environment name etc.) see the configuration below.
-
-Optionally supply an `index_name_template` that will be automatically evaluated in context of each of the subclasses.
+The `MyDoc` class will use index with name `my_docs`, the `MyDoc1` subclass will use `my_doc_1s`. If you wish to customize the index name (prepend application name, append Rails environment name etc.) supply an `index_name_template` that will be automatically evaluated in context of each of the subclasses.
 
 ```ruby
 class MyDoc
