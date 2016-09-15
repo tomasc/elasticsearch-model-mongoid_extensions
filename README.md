@@ -122,7 +122,7 @@ end
 
 #### Mapping
 
-The mapping will be altered, so that fields originally mapped as:
+The mapping will be altered, so that fields that would be originally mapped as:
 
 ```
 { 'field_1' => { 'type' => 'string' } }
