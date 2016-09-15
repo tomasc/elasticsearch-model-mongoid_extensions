@@ -20,7 +20,7 @@ describe Elasticsearch::Model::MongoidExtensions::SCI do
   describe '.document_type' do
     it 'equals to singular model_name of each class' do
       [my_doc, my_doc_1, my_doc_2].each do |doc|
-        doc.class.document_type.must_equal doc.class.model_name.singular
+        doc.class.document_type.must_equal ['test', doc.class.model_name.singular].join('_')
       end
     end
   end
@@ -34,13 +34,13 @@ describe Elasticsearch::Model::MongoidExtensions::SCI do
   end
 
   describe '.mapping' do
-    let(:my_doc_mapping) { my_doc.class.mapping.to_hash[:my_doc][:properties] }
-    let(:my_doc_1_mapping) { my_doc_1.class.mapping.to_hash[:my_doc1][:properties] }
+    let(:my_doc_mapping) { my_doc.class.mapping.to_hash[my_doc.class.document_type.to_sym][:properties] }
+    let(:my_doc_1_mapping) { my_doc_1.class.mapping.to_hash[my_doc_1.class.document_type.to_sym][:properties] }
 
     it 'propagates mapping from super class to subclasses' do
-      my_doc_1.class.mapping.to_hash[:my_doc1][:properties][:field_1].must_equal my_doc_mapping[:field_1]
-      my_doc_2.class.mapping.to_hash[:my_doc2][:properties][:field_1].must_equal my_doc_mapping[:field_1]
-      my_doc_2.class.mapping.to_hash[:my_doc2][:properties][:field_2].must_equal my_doc_1_mapping[:field_2]
+      my_doc_1.class.mapping.to_hash[my_doc_1.class.document_type.to_sym][:properties][:field_1].must_equal my_doc_mapping[:field_1]
+      my_doc_2.class.mapping.to_hash[my_doc_2.class.document_type.to_sym][:properties][:field_1].must_equal my_doc_mapping[:field_1]
+      my_doc_2.class.mapping.to_hash[my_doc_2.class.document_type.to_sym][:properties][:field_2].must_equal my_doc_1_mapping[:field_2]
     end
   end
 
