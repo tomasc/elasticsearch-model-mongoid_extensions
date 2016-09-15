@@ -6,6 +6,7 @@ module Elasticsearch
 
         included do
           include Elasticsearch::Model
+          include Elasticsearch::Model::MongoidExtensions
         end
 
         module ClassMethods
@@ -47,10 +48,6 @@ module Elasticsearch
             __elasticsearch__.import(options.merge(criteria: criteria.type(to_s)), &block)
             descendants.each { |cls| cls.import(options, &block) }
           end
-        end
-
-        def as_indexed_json(options = {})
-          as_json options.deep_merge(except: %i(id _id))
         end
       end
     end
