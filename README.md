@@ -120,6 +120,40 @@ class MyDoc3
 end
 ```
 
+#### Mapping
+
+The mapping will be altered, so that fields originally mapped as:
+
+```json
+{ 'field_1' => { 'type' => 'string' } }
+```
+
+Are automatically transformed to:
+
+```json
+{ 'field_1' => { 'type' => 'object', 'properties' => { 'en' => { 'type' => 'string' } } } }
+```
+
+This happens for all `I18n.available_locales`.
+
+#### Serializing
+
+The `:as_indexed_json` is automatically transformed behind the scenes to correspond with the mapping. Therefore it can be specified as usual:
+
+```ruby
+def as_indexed_json(options = {})
+  super(only: %i(field_1))
+end
+```
+
+The result automatically becoming:
+
+```json
+{ 'field_1' => { 'en' => 'value_en', 'cs' => 'value_cs' } }
+```
+
+TODO: it might be helpful to add support for the I18n's fallbacks, so that if the a value in a locale is missing, it is correctly replaced by the fallback value.
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
