@@ -57,8 +57,8 @@ module Elasticsearch
           end
 
           def import(options = {}, &block)
-            __elasticsearch__.import(options.merge(criteria: criteria.type(to_s)), &block)
-            descendants.each { |cls| cls.import(options, &block) }
+            __elasticsearch__.import(options.merge(criteria: criteria.type(to_s)), &block) +
+            descendants.map { |cls| cls.import(options, &block) }.sum
           end
         end
       end

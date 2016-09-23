@@ -89,6 +89,10 @@ describe Elasticsearch::Model::MongoidExtensions::SCI do
       my_doc.class.import force: true, refresh: true
     end
 
+    it 'returns number of documents whose import failed' do
+      my_doc.class.import.must_be_kind_of Integer
+    end
+
     it 'must import root class' do
       my_doc.class.search('*').results.total.must_equal 3
     end
