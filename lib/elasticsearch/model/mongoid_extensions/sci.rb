@@ -42,13 +42,15 @@ module Elasticsearch
           end
 
           def create_index!(options = {})
-            __elasticsearch__.create_index!(options)
-            descendants.each { |cls| cls.__elasticsearch__.create_index!(options) }
+            res = Array(__elasticsearch__.create_index!(options))
+            descendants.each { |cls| res << cls.__elasticsearch__.create_index!(options) }
+            res.compact
           end
 
           def refresh_index!(options = {})
-            __elasticsearch__.refresh_index!(options)
-            descendants.each { |cls| cls.__elasticsearch__.refresh_index!(options) }
+            res = Array(__elasticsearch__.refresh_index!(options))
+            descendants.each { |cls| res << cls.__elasticsearch__.refresh_index!(options) }
+            res.compact
           end
 
           def search(query_or_payload, options = {})
