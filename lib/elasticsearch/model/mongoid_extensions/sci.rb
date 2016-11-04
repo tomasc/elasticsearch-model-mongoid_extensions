@@ -55,12 +55,12 @@ module Elasticsearch
 
           def search(query_or_payload, options = {})
             models = options.fetch :models, [self] + descendants
-            Elasticsearch::Model.search(query_or_payload, models, options)
+            Elasticsearch::Model.search(query_or_payload, models, options.except(:models))
           end
 
           def import(options = {}, &block)
             __elasticsearch__.import(options.merge(criteria: criteria.type(to_s)), &block).to_i +
-            subclasses.sort_by(&:model_name).map { |cls| cls.import(options, &block) }.sum
+              subclasses.sort_by(&:model_name).map { |cls| cls.import(options, &block) }.sum
           end
         end
       end
