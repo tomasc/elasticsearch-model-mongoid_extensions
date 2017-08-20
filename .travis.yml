@@ -11,6 +11,6 @@ services:
   - mongodb
 before_install:
   - gem install bundler -v 1.12.5
-  -  apt-get update && sudo apt-get install elasticsearch
+  - curl -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.5.2.deb && sudo dpkg -i --force-confnew elasticsearch-5.5.2.deb && sudo service elasticsearch start
 before_script:
   - sleep 10
