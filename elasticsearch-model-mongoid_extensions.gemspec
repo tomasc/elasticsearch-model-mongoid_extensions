@@ -19,8 +19,8 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'activesupport', '>= 4'
-  spec.add_dependency 'elasticsearch-model', '~> 0.1'
-  spec.add_dependency 'elasticsearch-rails', '~> 0.1'
+  spec.add_dependency 'elasticsearch-model', '~> 5.0'
+  spec.add_dependency 'elasticsearch-rails', '~> 5.0'
   spec.add_dependency 'mongoid', '>= 5'
 
   spec.add_development_dependency 'bundler'

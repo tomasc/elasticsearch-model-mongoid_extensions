@@ -16,11 +16,11 @@ describe Elasticsearch::Model::MongoidExtensions::Localized do
     let(:mapping) { MyDocLoc.mapping.to_hash[MyDocLoc.document_type.to_sym][:properties] }
 
     it 'converts the default mappings into objects' do
-      mapping[:field_1].must_equal(type: 'object', properties: { en: { type: 'string' } })
+      mapping[:field_1].must_equal(type: 'object', properties: { en: { type: 'text' } })
     end
 
     it 'works with aliased fields' do
-      mapping[:f2].must_equal(type: 'object', properties: { en: { type: 'string' } })
+      mapping[:f2].must_equal(type: 'object', properties: { en: { type: 'text' } })
     end
   end
 
