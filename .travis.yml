@@ -3,9 +3,10 @@ language: ruby
 rvm:
   - 2.2.5
 services:
-  - elasticsearch
+  # - elasticsearch
   - mongodb
 before_install:
   - gem install bundler -v 1.12.5
+  - curl -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.1.1.deb && sudo dpkg -i --force-confnew elasticsearch-5.1.1.deb && sudo service elasticsearch start
 before_script:
   - sleep 10
