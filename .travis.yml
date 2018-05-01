@@ -14,3 +14,12 @@ before_install:
   - curl -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.5.2.deb && sudo dpkg -i --force-confnew elasticsearch-5.5.2.deb && sudo service elasticsearch start
 before_script:
   - sleep 10
+
+matrix:
+  include:
+    - rvm: 2.3.3
+      env: MONGOID_VERSION=5
+    - rvm: 2.3.3
+      env: MONGOID_VERSION=6
+    - rvm: 2.5.0
+      env: MONGOID_VERSION=7
