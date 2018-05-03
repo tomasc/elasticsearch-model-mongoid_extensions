@@ -21,7 +21,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'activesupport', '>= 4'
   spec.add_dependency 'elasticsearch-model', '~> 5.0'
   spec.add_dependency 'elasticsearch-rails', '~> 5.0'
-  spec.add_dependency 'mongoid', '>= 5', '<= 7'
+  spec.add_dependency 'mongoid', '>= 5', '< 8'
 
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'database_cleaner'
