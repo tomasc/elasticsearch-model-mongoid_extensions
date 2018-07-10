@@ -6,22 +6,22 @@ module Elasticsearch
       module Localized
         extend ActiveSupport::Concern
 
-        class Mappings < Elasticsearch::Model::Indexing::Mappings
-          def indexes(name, options = {}, &block)
-            # take the cls from options on the Mappings object
-            @cls ||= @options.delete(:cls) if @options[:cls]
+        class ProcessMappings < Struct.new(:cls, :mapping)
+          def self.call(*args)
+            new(*args).call
+          end
 
-            return super(name, options, &block) unless @cls
-
-            field = @cls.fields[name.to_s] || @cls.fields.detect { |_, meta| meta.options[:as] == name.to_sym }.try(:last)
-
-            return super(name, options, &block) unless field.present? && field.localized?
-
-            super(name) do
-              Array(::I18n.available_locales).each do |locale|
-                super(locale, options, &block)
+          def call
+            mapping.each do |field_name, options|
+              next unless field = cls.fields[field_name.to_s] || cls.fields.detect { |_, meta| meta.options[:as] == field_name.to_sym }.try(:last)
+              next unless field.localized?
+              next if mapping[field_name]&.frozen?
+              mapping[field_name] = ::I18n.available_locales.each_with_object({ type: 'object', properties: {} }) do |locale, res|
+                res[:properties][locale] = options.dup
               end
+              mapping[field_name].freeze
             end
+            mapping
           end
         end
 
@@ -41,8 +41,14 @@ module Elasticsearch
 
         included do
           def self.mapping(options = {}, &block)
-            __elasticsearch__.instance_variable_set(:@mapping, Mappings.new(document_type, { cls: self }.merge(options))) unless __elasticsearch__.instance_variable_get(:@mapping)
-            __elasticsearch__.mapping(options, &block)
+            mappings = __elasticsearch__.mapping(options, &block)
+            if mappings.is_a?(Elasticsearch::Model::Indexing::Mappings)
+              if mapping = mappings.instance_variable_get(:@mapping)
+                updated_mapping = ProcessMappings.call(self, mapping)
+                mappings.instance_variable_set(:@mapping, updated_mapping)
+              end
+            end
+            mappings
           end
 
           prepend Serializing

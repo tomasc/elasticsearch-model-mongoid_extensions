@@ -16,11 +16,23 @@ describe Elasticsearch::Model::MongoidExtensions::Localized do
     let(:mapping) { MyDocLoc.mapping.to_hash[MyDocLoc.document_type.to_sym][:properties] }
 
     it 'converts the default mappings into objects' do
-      mapping[:field_1].must_equal(type: 'object', properties: { en: { type: 'text' } })
+      mapping[:field_1].must_equal(type: 'object', properties: { en: { type: 'text' }, cs: { type: 'text' } })
     end
 
     it 'works with aliased fields' do
-      mapping[:f2].must_equal(type: 'object', properties: { en: { type: 'text' } })
+      mapping[:f2].must_equal(type: 'object', properties: { en: { type: 'text' }, cs: { type: 'text' } })
+    end
+
+    describe 'subclass' do
+      let(:mapping) { MyDocLocSub.mapping.to_hash[MyDocLocSub.document_type.to_sym][:properties] }
+
+      it 'converts the default mappings into objects' do
+        mapping[:field_1].must_equal(type: 'object', properties: { en: { type: 'text' }, cs: { type: 'text' } })
+      end
+
+      it 'works with aliased fields' do
+        mapping[:f2].must_equal(type: 'object', properties: { en: { type: 'text' }, cs: { type: 'text' } })
+      end
     end
   end
 
