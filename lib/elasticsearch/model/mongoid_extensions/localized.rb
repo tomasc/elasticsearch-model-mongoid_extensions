@@ -31,9 +31,22 @@ module Elasticsearch
               fields.select { |_, field| field.localized? }.each do |name, field|
                 aliased_name = field.options[:as].to_s
                 translations_field_name = [name, 'translations'].join('_')
-                if obj.key?(name) then obj[name] = send(translations_field_name)
-                elsif obj.key?(aliased_name) then obj[aliased_name] = send(translations_field_name)
+                field_obj = send(translations_field_name)
+                field_key = aliased_name.presence || name
+
+                obj[field_key] = I18n.available_locales.each_with_object({}) do |locale, res|
+                  res[locale.to_s] = field_obj[locale.to_s].presence || field_obj[locale]
+
+                  next if res[locale].present?
+
+                  if field.send(:fallbacks?) && ::I18n.respond_to?(:fallbacks)
+                    next unless fallbacks_for_locale = ::I18n.fallbacks[locale]
+                    next unless fallback_locale = fallbacks_for_locale.map(&:to_s).find{ |loc| field_obj.has_key?(loc) && field_obj[loc].present? }
+                    res[locale.to_s] = field_obj[fallback_locale]
+                  end
                 end
+
+                obj
               end
             end
           end
